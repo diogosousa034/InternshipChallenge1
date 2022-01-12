@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\SwitchTechnology\\Desktop\\InternshipChallenge1\\InternshipChallenge1.csproj": {}
+    "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipChallange1\\InternshipChallenge1\\InternshipChallenge1\\InternshipChallenge1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\SwitchTechnology\\Desktop\\InternshipChallenge1\\InternshipChallenge1.csproj": {
+    "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipChallange1\\InternshipChallenge1\\InternshipChallenge1\\InternshipChallenge1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\SwitchTechnology\\Desktop\\InternshipChallenge1\\InternshipChallenge1.csproj",
+        "projectUniqueName": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipChallange1\\InternshipChallenge1\\InternshipChallenge1\\InternshipChallenge1.csproj",
         "projectName": "InternshipChallenge1",
-        "projectPath": "C:\\Users\\SwitchTechnology\\Desktop\\InternshipChallenge1\\InternshipChallenge1.csproj",
+        "projectPath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipChallange1\\InternshipChallenge1\\InternshipChallenge1\\InternshipChallenge1.csproj",
         "packagesPath": "C:\\Users\\SwitchTechnology\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\SwitchTechnology\\Desktop\\InternshipChallenge1\\obj\\",
+        "outputPath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipChallange1\\InternshipChallenge1\\InternshipChallenge1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\SwitchTechnology\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -43,6 +43,20 @@
             "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
               "target": "Package",
               "version": "[3.1.21, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.22, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.22, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.22, )"
             }
           },
           "imports": [
