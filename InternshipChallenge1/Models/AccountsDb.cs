@@ -26,7 +26,7 @@ namespace InternshipChallenge1.Models
             public int AccountId { get; set; }
             public Account Account { get; set; }
 
-            public IList<AccountContentComment> AccountContentComments { get; set; }
+            public IEnumerable<AccountContentComment> AccountContentComments { get; set; }
         }
 
         public class Account
@@ -37,7 +37,7 @@ namespace InternshipChallenge1.Models
             public int NrFollowers { get; set; }
             public int NrFollowing { get; set; }
 
-            public IList<AccountsContent> AccountsContents { get; set; }
+            public IEnumerable<AccountsContent> AccountsContents { get; set; }
         }
 
         public class AccountsContext : DbContext

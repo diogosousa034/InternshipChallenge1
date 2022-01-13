@@ -14,8 +14,8 @@ namespace InternshipChallenge1.Data
 
         }
 
-        public IList<Account> Accounts { get; set; }
-        public IList<AccountsContent> AccountsContents { get; set; }
-        public IList<AccountContentComment> AccountContentComments { get; set; }
+        public IEnumerable<Account> Accounts { get; set; }
+        public IEnumerable<AccountsContent> AccountsContents { get; set; }
+        public IEnumerable<AccountContentComment> AccountContentComments { get; set; }
     }
 }
