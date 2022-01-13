@@ -1,4 +1,4 @@
-﻿@model IEnumerable<InternshipChallenge1.Models.AccountsDb>
+﻿@model IList<InternshipChallenge1.Models.AccountsDb>
 
 <div class="container p-3">
     <div class="row pt-4">
@@ -11,42 +11,6 @@
     </div>
     <br />
 
-    @if (Model.Count() > 0)
-    {
-        <table class="table table-bordered table-striped" style="width:100%">
-            <thead>
-                <tr>
-                    <th>
-                        Username
-                    </th>
-                    <th>
-                        Fullname
-                    </th>
-                    <th>
-                        NrFollowers
-                    </th>
-                    <th>
-                        NrFollowing
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td width="20%"></td>
-                        <td width="20%"></td>
-                        <td width="20%"></td>
-                        <td width="20%"></td>
-                        <td width="20%"></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p>No Acounts created yet</p>
-    }
+    
 
 </div>

@@ -19,7 +19,8 @@ namespace InternshipChallenge1.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Account> objList = _db.Accounts;
+            IEnumerable<Account> objList = _db.Accounts;       
+
             return View(objList);
         }
     }

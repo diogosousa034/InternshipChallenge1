@@ -14,8 +14,8 @@ namespace InternshipChallenge1.Data
 
         }
 
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<AccountsContent> AccountsContents { get; set; }
-        public DbSet<AccountContentComment> AccountContentComments { get; set; }
+        public IList<Account> Accounts { get; set; }
+        public IList<AccountsContent> AccountsContents { get; set; }
+        public IList<AccountContentComment> AccountContentComments { get; set; }
     }
 }
