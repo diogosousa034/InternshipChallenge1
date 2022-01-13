@@ -23,5 +23,26 @@ namespace InternshipChallenge1.Controllers
 
             return View(objList);
         }
+
+        public IActionResult Details()
+        {
+            return View();
+        }
+
+        // GET-Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST-Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Account obj)
+        {
+            _db.Accounts.Add(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
