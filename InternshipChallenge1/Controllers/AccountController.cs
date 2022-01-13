@@ -1,10 +1,10 @@
 ﻿using InternshipChallenge1.Data;
+using InternshipChallenge1.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static InternshipChallenge1.Models.AccountsDb;
 
 namespace InternshipChallenge1.Controllers
 {
@@ -19,7 +19,7 @@ namespace InternshipChallenge1.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Account> objList = _db.Accounts;       
+            IEnumerable<Account> objList = _db.Accounts.ToList();       
 
             return View(objList);
         }

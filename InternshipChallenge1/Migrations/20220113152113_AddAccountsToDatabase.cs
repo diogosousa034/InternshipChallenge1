@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace InternshipChallenge1.Migrations
 {
-    public partial class addAccountToDatabase : Migration
+    public partial class AddAccountsToDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,7 +24,7 @@ namespace InternshipChallenge1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AccountsContents",
+                name: "AccountsContent",
                 columns: table => new
                 {
                     AccountsContentId = table.Column<int>(nullable: false)
@@ -35,9 +35,9 @@ namespace InternshipChallenge1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AccountsContents", x => x.AccountsContentId);
+                    table.PrimaryKey("PK_AccountsContent", x => x.AccountsContentId);
                     table.ForeignKey(
-                        name: "FK_AccountsContents_Account_AccountsContentId",
+                        name: "FK_AccountsContent_Account_AccountsContentId",
                         column: x => x.AccountsContentId,
                         principalTable: "Account",
                         principalColumn: "Id",
@@ -45,7 +45,7 @@ namespace InternshipChallenge1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AccountContentComments",
+                name: "AccountContentComment",
                 columns: table => new
                 {
                     AccountContentCommentId = table.Column<int>(nullable: false)
@@ -55,11 +55,11 @@ namespace InternshipChallenge1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AccountContentComments", x => x.AccountContentCommentId);
+                    table.PrimaryKey("PK_AccountContentComment", x => x.AccountContentCommentId);
                     table.ForeignKey(
-                        name: "FK_AccountContentComments_AccountsContents_AccountContentCommentId",
+                        name: "FK_AccountContentComment_AccountsContent_AccountContentCommentId",
                         column: x => x.AccountContentCommentId,
-                        principalTable: "AccountsContents",
+                        principalTable: "AccountsContent",
                         principalColumn: "AccountsContentId",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -68,10 +68,10 @@ namespace InternshipChallenge1.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AccountContentComments");
+                name: "AccountContentComment");
 
             migrationBuilder.DropTable(
-                name: "AccountsContents");
+                name: "AccountsContent");
 
             migrationBuilder.DropTable(
                 name: "Account");
