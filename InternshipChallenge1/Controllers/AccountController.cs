@@ -1,6 +1,7 @@
 ﻿using InternshipChallenge1.Data;
 using InternshipChallenge1.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,43 @@ namespace InternshipChallenge1.Controllers
         {
             IEnumerable<Account> objList = _db.Accounts.ToList();       
 
+
             return View(objList);
         }
 
-        public IActionResult Details()
+
+        // Edit
+        [HttpGet]
+        public IActionResult Edit(int id)
         {
-            return View();
+            Account accs = _db.Accounts.Where(a => a.Id == id).FirstOrDefault();
+            return View(accs);
+        }
+
+
+        [HttpPost]
+        public IActionResult Edit(Account accs)
+        {
+            _db.Attach(accs);
+            _db.Entry(accs).State = EntityState.Modified;
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+        // Get-Details
+        public async Task<IActionResult> Details(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var acc = await _db.Accounts
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            return View(acc);
         }
 
         // GET-Create
