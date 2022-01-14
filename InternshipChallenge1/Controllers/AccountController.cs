@@ -47,7 +47,8 @@ namespace InternshipChallenge1.Controllers
 
 
         // Get-Details
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
         {
             if(id == null)
             {
