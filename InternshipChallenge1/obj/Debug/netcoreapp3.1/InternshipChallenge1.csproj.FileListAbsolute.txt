@@ -423,3 +423,4 @@ C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChalleng
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChallenge1\InternshipChallenge1\obj\Debug\netcoreapp3.1\Razor\Views\Account\Create.cshtml.g.cs
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChallenge1\InternshipChallenge1\obj\Debug\netcoreapp3.1\Razor\Views\Account\Edit.cshtml.g.cs
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChallenge1\InternshipChallenge1\obj\Debug\netcoreapp3.1\Razor\Views\Account\Details.cshtml.g.cs
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChallenge1\InternshipChallenge1\obj\Debug\netcoreapp3.1\Razor\Views\AccountsContent\Index.cshtml.g.cs

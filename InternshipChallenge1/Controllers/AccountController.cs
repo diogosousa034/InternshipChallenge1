@@ -22,17 +22,18 @@ namespace InternshipChallenge1.Controllers
         {
             IEnumerable<Account> objList = _db.Accounts.ToList();       
 
-
             return View(objList);
         }
 
 
         // Edit
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            Account accs = _db.Accounts.Where(a => a.Id == id).FirstOrDefault();
-            return View(accs);
+            var acc = await _db.Accounts
+                 .AsNoTracking()
+                 .FirstOrDefaultAsync(m => m.Id == id);
+            return View(acc);
         }
 
 
