@@ -21,8 +21,7 @@ namespace InternshipChallenge1.Controllers
 
         public async Task<IActionResult> Index(int id)
         {
-
-            IEnumerable<AccountsContent> objList = _db.AccountsContents.Where(m => m.Account.Id == id).ToList();
+            IEnumerable<AccountsContent> objList = _db.AccountsContents.Where(m => m.AccountId == id).ToList();
 
             return View(objList);
         }
@@ -36,9 +35,9 @@ namespace InternshipChallenge1.Controllers
         // POST-Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Account obj)
+        public IActionResult Create(AccountsContent obj)
         {
-            _db.Accounts.Add(obj);
+            _db.AccountsContents.Add(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
