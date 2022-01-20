@@ -21,9 +21,26 @@ namespace InternshipChallenge1.Controllers
 
         public async Task<IActionResult> Index(int id)
         {
-            IEnumerable<AccountsContent> objList = _db.AccountsContents.ToList();
+
+            IEnumerable<AccountsContent> objList = _db.AccountsContents.Where(m => m.Account.Id == id).ToList();
 
             return View(objList);
+        }
+
+        // GET-Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST-Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Account obj)
+        {
+            _db.Accounts.Add(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

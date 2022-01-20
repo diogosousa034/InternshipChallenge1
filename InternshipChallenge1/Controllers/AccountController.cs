@@ -20,13 +20,13 @@ namespace InternshipChallenge1.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Account> objList = _db.Accounts.ToList();       
+            IEnumerable<Account> objList = _db.Accounts.ToList();
 
             return View(objList);
         }
 
 
-        // Edit
+        // GET-Edit
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -36,7 +36,7 @@ namespace InternshipChallenge1.Controllers
             return View(acc);
         }
 
-
+        // POST-Edit
         [HttpPost]
         public IActionResult Edit(Account accs)
         {
@@ -51,10 +51,6 @@ namespace InternshipChallenge1.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            if(id == null)
-            {
-                return NotFound();
-            }
 
             var acc = await _db.Accounts
                 .AsNoTracking()
