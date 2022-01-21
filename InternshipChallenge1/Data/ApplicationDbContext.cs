@@ -14,6 +14,7 @@ namespace InternshipChallenge1.Data
 
         }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Write Fluent API configurations here
