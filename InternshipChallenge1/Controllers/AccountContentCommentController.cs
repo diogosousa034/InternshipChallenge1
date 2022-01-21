@@ -9,19 +9,18 @@ using System.Threading.Tasks;
 
 namespace InternshipChallenge1.Controllers
 {
-    public class AccountsContentController : Controller
+    public class AccountContentCommentController : Controller
     {
-
         private readonly ApplicationDbContext _db;
 
-        public AccountsContentController(ApplicationDbContext db)
+        public AccountContentCommentController(ApplicationDbContext db)
         {
             _db = db;
         }
 
         public async Task<IActionResult> Index(int id)
         {
-            IEnumerable<AccountsContent> objList = _db.AccountsContents.Where(m => m.AccountId == id).ToList();
+            IEnumerable<AccountContentComment> objList = _db.AccountContentComments.Where(m => m.AccountsContentId == id).ToList();
 
             return View(objList);
         }
@@ -30,15 +29,15 @@ namespace InternshipChallenge1.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var acc = await _db.AccountsContents
+            var acc = await _db.AccountContentComments
                  .AsNoTracking()
-                 .FirstOrDefaultAsync(m => m.AccountsContentId == id);
+                 .FirstOrDefaultAsync(m => m.AccountContentCommentId == id);
             return View(acc);
         }
 
         // POST-Edit
         [HttpPost]
-        public IActionResult Edit(AccountsContent accs)
+        public IActionResult Edit(AccountContentComment accs)
         {
             _db.Attach(accs);
             _db.Entry(accs).State = EntityState.Modified;
@@ -52,9 +51,9 @@ namespace InternshipChallenge1.Controllers
         public async Task<IActionResult> Details(int id)
         {
 
-            var acc = await _db.AccountsContents
+            var acc = await _db.AccountContentComments
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.AccountsContentId == id);
+                .FirstOrDefaultAsync(m => m.AccountContentCommentId == id);
 
             return View(acc);
         }
@@ -68,9 +67,9 @@ namespace InternshipChallenge1.Controllers
         // POST-Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(AccountsContent obj)
+        public IActionResult Create(AccountContentComment obj)
         {
-            _db.AccountsContents.Add(obj);
+            _db.AccountContentComments.Add(obj);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }

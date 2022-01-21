@@ -425,3 +425,9 @@ C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChalleng
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChallenge1\InternshipChallenge1\obj\Debug\netcoreapp3.1\Razor\Views\AccountsContent\Index.cshtml.g.cs
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChallenge1\InternshipChallenge1\obj\Debug\netcoreapp3.1\Razor\Views\Account\Create.cshtml.g.cs
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChallenge1\InternshipChallenge1\obj\Debug\netcoreapp3.1\Razor\Views\AccountsContent\Create.cshtml.g.cs
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChallenge1\InternshipChallenge1\obj\Debug\netcoreapp3.1\Razor\Views\AccountsContent\Details.cshtml.g.cs
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChallenge1\InternshipChallenge1\obj\Debug\netcoreapp3.1\Razor\Views\AccountsContent\Edit.cshtml.g.cs
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChallenge1\InternshipChallenge1\obj\Debug\netcoreapp3.1\Razor\Views\AccountContentComment\Index.cshtml.g.cs
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChallenge1\InternshipChallenge1\obj\Debug\netcoreapp3.1\Razor\Views\AccountContentComment\Edit.cshtml.g.cs
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChallenge1\InternshipChallenge1\obj\Debug\netcoreapp3.1\Razor\Views\AccountContentComment\Details.cshtml.g.cs
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipChallange1\InternshipChallenge1\InternshipChallenge1\obj\Debug\netcoreapp3.1\Razor\Views\AccountContentComment\Create.cshtml.g.cs
