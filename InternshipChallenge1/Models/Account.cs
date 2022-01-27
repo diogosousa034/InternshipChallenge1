@@ -17,6 +17,6 @@ namespace InternshipChallenge1.Models
         public int NrFollowing { get; set; }
 
 
-        public IEnumerable<AccountsContent> AccountsContents { get; set; }
+        public virtual IEnumerable<AccountsContent> AccountsContents { get; set; }
     }
 }

@@ -1,49 +1,52 @@
 ﻿@model IEnumerable<InternshipChallenge1.Models.AccountsContent>
 
+@{
+    ViewData["Title"] = "Index";
+}
 
+<h1>Index</h1>
 
-<div class="container p-3">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">Accounts content list</h2>
-        </div>
-
-        <div class="col-6 text-right">
-            <a asp-action="Create" class="btn btn-primary">Create new content</a>
-        </div>
-    </div>
-    
-
-    <br />
-
-    <table class="table table-bordered table-striped" style="width:100%">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Image)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PublicationData)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Image)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PublicationData)
-                    </td>
-                    <td>
-                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.AccountsContentId">Details</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-</div>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublicationData)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.AccountId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Account)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Image)*@
+                <img src="@item.Image" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublicationData)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.AccountId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Account.Id)
+            </td>*@
+            <td>
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.AccountsContentId">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

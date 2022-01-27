@@ -1,5 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,8 +17,8 @@ namespace InternshipChallenge1.Models
         public DateTime PublicationData { get; set; }
 
         public int AccountId { get; set; }
-        public Account Account { get; set; }
+        public virtual Account Account { get; set; }
 
-        public IEnumerable<AccountContentComment> AccountContentComments { get; set; }
+        public virtual IEnumerable<AccountContentComment> AccountContentComments { get; set; }
     }
 }

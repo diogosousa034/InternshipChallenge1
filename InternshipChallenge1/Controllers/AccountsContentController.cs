@@ -1,23 +1,31 @@
 ﻿using InternshipChallenge1.Data;
 using InternshipChallenge1.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text;
+using Microsoft.Web.Helpers;
 
 namespace InternshipChallenge1.Controllers
 {
     public class AccountsContentController : Controller
     {
-
         private readonly ApplicationDbContext _db;
 
         public AccountsContentController(ApplicationDbContext db)
         {
             _db = db;
         }
+
+        //image file
+        
+        //
 
 
         public IActionResult Index(int id)
@@ -39,12 +47,35 @@ namespace InternshipChallenge1.Controllers
 
         // POST-Edit
         [HttpPost]
-        public IActionResult Edit(AccountsContent accs)
+        public IActionResult Edit(IFormFile files, int id)
         {
-            _db.Attach(accs);
-            _db.Entry(accs).State = EntityState.Modified;
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+            if (files != null)
+            {
+                if (files.Length > 0)
+                {
+                    var fileName = Path.GetFileName(files.FileName);
+                    var fileExtension = Path.GetExtension(fileName);
+                    var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
+                    var objFiles = new AccountsContent()
+                    {
+                        AccountsContentId = id,
+                        PublicationData = DateTime.Now
+                    };
+                    using (var target = new MemoryStream())
+                    {
+                        files.CopyTo(target);
+                        objFiles.Image = target.ToArray();
+                    }
+
+                    _db.Attach(objFiles);
+                    _db.Entry(objFiles).State = EntityState.Modified;
+                    _db.SaveChanges();
+                }
+            }
+            //_db.Attach(accs);
+            //_db.Entry(accs).State = EntityState.Modified;
+            //_db.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
 
@@ -52,7 +83,7 @@ namespace InternshipChallenge1.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-
+            
             var acc = await _db.AccountsContents
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.AccountsContentId == id);
@@ -69,13 +100,18 @@ namespace InternshipChallenge1.Controllers
         // POST-Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(AccountsContent obj)
+        public async Task<IActionResult> CreateAsync(AccountsContent obj, int id)
         {
-            
-            _db.Add(obj);
-            _db.AccountsContents.Add(obj);
+
+            var acc = await _db.Accounts
+                                .Include(m => m.AccountsContents)
+                .FirstOrDefaultAsync(m => m.Id == obj.AccountId);
+            acc.AccountsContents.ToList().Add(obj);
+
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
+
     }
 }
+

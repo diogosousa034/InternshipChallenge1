@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace InternshipChallenge1.Data
 {
-    public class ApplicationDbContext :DbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

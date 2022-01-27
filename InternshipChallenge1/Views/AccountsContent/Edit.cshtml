@@ -10,24 +10,24 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form enctype="multipart/form-data" method="post" asp-controller="AccountsContent" asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="AccountsContentId" />
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
+                <p>Upload file</p>
+                <input class="form-control" name="files" type="file" />
+                <input class="btn btn-success" type="submit" value="Upload" />
             </div>
             <div class="form-group">
                 <label asp-for="PublicationData" class="control-label"></label>
                 <input asp-for="PublicationData" class="form-control" />
                 <span asp-validation-for="PublicationData" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
+            <div class="form-group">
                 <label asp-for="AccountId" class="control-label"></label>
                 <input asp-for="AccountId" class="form-control" />
                 <span asp-validation-for="AccountId" class="text-danger"></span>
-            </div>*@
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -38,4 +38,5 @@
 <div>
     <a class="btn btn-primary" asp-action="Index">Back to List</a>
 </div>
+
 
