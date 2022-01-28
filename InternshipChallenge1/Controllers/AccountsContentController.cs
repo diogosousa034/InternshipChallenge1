@@ -24,7 +24,14 @@ namespace InternshipChallenge1.Controllers
         }
 
         //image file
-        
+        public async Task<ActionResult> RenderImage(int id)
+        {
+            AccountsContent item = await _db.AccountsContents.FindAsync(id);
+
+            byte[] photoBack = item.Image;
+
+            return File(photoBack, "image/png");
+        }
         //
 
 

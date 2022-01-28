@@ -31,8 +31,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @*@Html.DisplayFor(modelItem => item.Image)*@
-                <img src="@item.Image" />
+                <img src="@Url.Action("RenderImage", new { id = item.AccountsContentId})" style="width:150px;" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PublicationData)
