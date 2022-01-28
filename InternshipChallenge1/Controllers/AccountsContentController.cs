@@ -54,7 +54,7 @@ namespace InternshipChallenge1.Controllers
 
         // POST-Edit
         [HttpPost]
-        public IActionResult Edit(IFormFile files, int id)
+        public async Task<IActionResult> EditAsync(IFormFile files, int id)
         {
             if (files != null)
             {
@@ -74,6 +74,12 @@ namespace InternshipChallenge1.Controllers
                         objFiles.Image = target.ToArray();
                     }
 
+                    var acc = await _db.AccountsContents
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(m => m.AccountsContentId == id);
+
+                    objFiles.AccountId = acc.AccountId;
+
                     _db.Attach(objFiles);
                     _db.Entry(objFiles).State = EntityState.Modified;
                     _db.SaveChanges();
@@ -90,7 +96,7 @@ namespace InternshipChallenge1.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            
+
             var acc = await _db.AccountsContents
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.AccountsContentId == id);
