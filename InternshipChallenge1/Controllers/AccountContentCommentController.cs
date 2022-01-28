@@ -18,7 +18,7 @@ namespace InternshipChallenge1.Controllers
             _db = db;
         }
 
-        public async Task<IActionResult> Index(int id)
+        public IActionResult Index(int id)
         {
             IEnumerable<AccountContentComment> objList = _db.AccountContentComments.Where(m => m.AccountsContentId == id).ToList();
 

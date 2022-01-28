@@ -1,6 +1,4 @@
 using InternshipChallenge1.Data;
-using InternshipChallenge1.IService;
-using InternshipChallenge1.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +28,6 @@ namespace InternshipChallenge1
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
-            services.AddScoped<IAccountsContentService, AccountsContentService>();
             services.AddControllersWithViews()
                 .AddJsonOptions(options =>
                 {
