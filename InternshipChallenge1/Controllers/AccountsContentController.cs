@@ -119,7 +119,10 @@ namespace InternshipChallenge1.Controllers
             var acc = await _db.Accounts
                                 .Include(m => m.AccountsContents)
                 .FirstOrDefaultAsync(m => m.Id == obj.AccountId);
-            acc.AccountsContents.ToList().Add(obj);
+
+            //acc.AccountsContents.ToList().Add(obj);
+
+            _db.Entry(acc).State = EntityState.Added;
 
             _db.SaveChanges();
             return RedirectToAction("Index");
