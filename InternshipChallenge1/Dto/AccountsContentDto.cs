@@ -17,8 +17,9 @@ namespace InternshipChallenge1.Dto
         public DateTime PublicationData { get; set; }
 
         public int AccountId { get; set; }
-        public virtual Account Account { get; set; }
 
-        public virtual IEnumerable<AccountContentComment> AccountContentComments { get; set; }
+        public AccountDto Account { get; set; }
+
+        public IEnumerable<AccountContentCommentDto> AccountContentComments { get; set; }
     }
 }

@@ -25,6 +25,6 @@ namespace InternshipChallenge1.Dto
         public int NrFollowing { get; set; }
 
 
-        public virtual IEnumerable<AccountsContent> AccountsContents { get; set; }
+        public IEnumerable<AccountsContentDto> Contents { get; set; }
     }
 }
