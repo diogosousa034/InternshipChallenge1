@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
 using Microsoft.Web.Helpers;
+using InternshipChallenge1.Dto;
 
 namespace InternshipChallenge1.Controllers
 {
@@ -35,11 +36,20 @@ namespace InternshipChallenge1.Controllers
         //
 
 
-        public IActionResult Index(int id)
+        public async Task<IActionResult> Index(int id)
         {
-            IEnumerable<AccountsContent> objList = _db.AccountsContents.Where(m => m.AccountId == id).ToList();
+            var contents = await _db.AccountsContents
+                .AsNoTracking()
+                .Where(c => c.AccountId == id)         
+                .Select(x => new AccountsContentDto()
+                {
+                    AccountsContentId = x.AccountsContentId,
+                    Image = x.Image,
+                    PublicationData = x.PublicationData,
+                    AccountId = x.AccountId,
+                }).ToListAsync();
 
-            return View(objList);
+            return View(contents);
         }
 
         // GET-Edit
@@ -49,12 +59,21 @@ namespace InternshipChallenge1.Controllers
             var acc = await _db.AccountsContents
                  .AsNoTracking()
                  .FirstOrDefaultAsync(m => m.AccountsContentId == id);
+
+            var dto = new AccountsContentDto()
+            {
+                AccountsContentId = acc.AccountsContentId,
+                Image = acc.Image,
+                PublicationData = acc.PublicationData,
+                AccountId = acc.AccountId,
+            };
+
             return View(acc);
         }
 
         // POST-Edit
         [HttpPost]
-        public async Task<IActionResult> EditAsync(IFormFile files, int id)
+        public async Task<IActionResult> Edit(IFormFile files, int id, AccountsContentDto model)
         {
             if (files != null)
             {
@@ -65,8 +84,10 @@ namespace InternshipChallenge1.Controllers
                     var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
                     var objFiles = new AccountsContent()
                     {
-                        AccountsContentId = id,
-                        PublicationData = DateTime.Now
+                        AccountsContentId = model.AccountsContentId,
+                        PublicationData = DateTime.Now,
+                        AccountId = id
+                        
                     };
                     using (var target = new MemoryStream())
                     {
@@ -75,20 +96,30 @@ namespace InternshipChallenge1.Controllers
                     }
 
                     var acc = await _db.AccountsContents
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(m => m.AccountsContentId == id);
+                    //.Where(a =>a.AccountId == id)
+                    .FirstOrDefaultAsync(m => m.AccountsContentId == model.AccountsContentId);
+
+                    acc.Image = model.Image;
+                    acc.PublicationData = model.PublicationData;
+                    acc.AccountId = model.AccountId;
+
 
                     objFiles.AccountId = acc.AccountId;
 
-                    _db.Attach(objFiles);
-                    _db.Entry(objFiles).State = EntityState.Modified;
-                    _db.SaveChanges();
+                    var result = await _db.SaveChangesAsync();
+
+                    if (result < 1)
+                        return BadRequest();
+
+                    //_db.Attach(objFiles);
+                    //_db.Entry(objFiles).State = EntityState.Modified;
+                    //_db.SaveChanges();
                 }
             }
             //_db.Attach(accs);
             //_db.Entry(accs).State = EntityState.Modified;
             //_db.SaveChanges();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
 
 
@@ -113,18 +144,49 @@ namespace InternshipChallenge1.Controllers
         // POST-Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(AccountsContent obj, int id)
+        public async Task<IActionResult> Create(IFormFile files, int id, AccountsContentDto model)
         {
 
-            var acc = await _db.Accounts
-                                .Include(m => m.AccountsContents)
-                .FirstOrDefaultAsync(m => m.Id == obj.AccountId);
+            if (files != null)
+            {
+                if (files.Length > 0)
+                {
+                    var fileName = Path.GetFileName(files.FileName);
+                    var fileExtension = Path.GetExtension(fileName);
+                    var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
+                    var objFiles = new AccountsContent()
+                    {
+                        AccountsContentId = id,
+                        PublicationData = DateTime.Now
+                    };
+                    using (var target = new MemoryStream())
+                    {
+                        files.CopyTo(target);
+                        objFiles.Image = target.ToArray();
+                    }
 
-            //acc.AccountsContents.ToList().Add(obj);
+                    var acc = await _db.AccountsContents                    
+                    .FirstOrDefaultAsync(m => m.AccountsContentId == id);
 
-            _db.Entry(acc).State = EntityState.Added;
+                    acc.AccountsContentId = model.AccountsContentId;
+                    acc.Image = model.Image;
+                    acc.PublicationData = model.PublicationData;
+                    acc.AccountId = model.AccountId;
 
-            _db.SaveChanges();
+
+                    objFiles.AccountId = acc.AccountId;
+
+                    var result = await _db.SaveChangesAsync();
+
+                    if (result < 1)
+                        return BadRequest();
+
+                    //_db.Attach(objFiles);
+                    //_db.Entry(objFiles).State = EntityState.Modified;
+                    //_db.SaveChanges();
+                }
+            }
+
             return RedirectToAction("Index");
         }
 
