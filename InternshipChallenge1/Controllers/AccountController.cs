@@ -1,4 +1,5 @@
 ﻿using InternshipChallenge1.Data;
+using InternshipChallenge1.Dto;
 using InternshipChallenge1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,9 +19,20 @@ namespace InternshipChallenge1.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<Account> objList = _db.Accounts.ToList();
+            var accounts = await _db.Accounts
+                .AsNoTracking()
+                .ToListAsync();
+
+            var objList = accounts.Select(x => new AccountDto()
+            {
+                Id = x.Id,
+                FullName = x.FullName,
+                NrFollowers = x.NrFollowers,
+                NrFollowing = x.NrFollowing,
+                UserName = x.UserName
+            }).ToList();
 
             return View(objList);
         }
@@ -30,19 +42,40 @@ namespace InternshipChallenge1.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var acc = await _db.Accounts
+            var dbAccount = await _db.Accounts
                  .AsNoTracking()
                  .FirstOrDefaultAsync(m => m.Id == id);
-            return View(acc);
+
+            var dto = new AccountDto()
+            {
+                Id = dbAccount.Id,
+                FullName = dbAccount.FullName,
+                UserName = dbAccount.UserName,
+                NrFollowers = dbAccount.NrFollowers,
+                NrFollowing = dbAccount.NrFollowing
+            };
+
+            return View(dto);
         }
 
         // POST-Edit
         [HttpPost]
-        public IActionResult Edit(Account accs)
+        public async Task<IActionResult> Edit(AccountDto model)
         {
-            _db.Attach(accs);
-            _db.Entry(accs).State = EntityState.Modified;
-            _db.SaveChanges();
+
+            var dbAccount = await _db.Accounts
+                .FirstOrDefaultAsync(m => m.Id == model.Id);
+
+            dbAccount.UserName = model.UserName;
+            dbAccount.FullName = model.FullName;    
+            dbAccount.NrFollowers = model.NrFollowers;
+            dbAccount.NrFollowing = model.NrFollowing;
+
+            var result = await _db.SaveChangesAsync();
+
+            if (result < 1)
+                return BadRequest();
+
             return RedirectToAction("Index");
         }
 
@@ -68,10 +101,23 @@ namespace InternshipChallenge1.Controllers
         // POST-Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Account obj)
+        public async Task<IActionResult> Create(AccountDto model)
         {
-            _db.Accounts.Add(obj);
-            _db.SaveChanges();
+            var dbAccout = new Account()
+            {
+                FullName = model.FullName,
+                NrFollowers = model.NrFollowers,
+                NrFollowing = model.NrFollowing,
+                UserName = model.UserName
+            };
+
+            _db.Accounts.Add(dbAccout);
+            
+            var result = await _db.SaveChangesAsync();
+
+            if (result < 1)
+                return BadRequest();
+
             return RedirectToAction("Index");
         }
     }
