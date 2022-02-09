@@ -94,7 +94,7 @@ namespace InternshipChallenge1.Controllers
         // POST-Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AccountContentCommentDto model, int id)
+        public async Task<IActionResult> Create(AccountContentCommentDto model)
         {
             var dbComment = new AccountContentComment()
             {

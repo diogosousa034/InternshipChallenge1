@@ -68,7 +68,7 @@ namespace InternshipChallenge1.Controllers
                 AccountId = acc.AccountId,
             };
 
-            return View(acc);
+            return View(dto);
         }
 
         // POST-Edit
@@ -86,8 +86,7 @@ namespace InternshipChallenge1.Controllers
                     {
                         AccountsContentId = model.AccountsContentId,
                         PublicationData = DateTime.Now,
-                        AccountId = id
-                        
+                        AccountId = model.AccountId                       
                     };
                     using (var target = new MemoryStream())
                     {
@@ -96,7 +95,6 @@ namespace InternshipChallenge1.Controllers
                     }
 
                     var acc = await _db.AccountsContents
-                    //.Where(a =>a.AccountId == id)
                     .FirstOrDefaultAsync(m => m.AccountsContentId == model.AccountsContentId);
 
                     acc.Image = model.Image;
@@ -111,14 +109,8 @@ namespace InternshipChallenge1.Controllers
                     if (result < 1)
                         return BadRequest();
 
-                    //_db.Attach(objFiles);
-                    //_db.Entry(objFiles).State = EntityState.Modified;
-                    //_db.SaveChanges();
                 }
             }
-            //_db.Attach(accs);
-            //_db.Entry(accs).State = EntityState.Modified;
-            //_db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -156,8 +148,9 @@ namespace InternshipChallenge1.Controllers
                     var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
                     var objFiles = new AccountsContent()
                     {
-                        AccountsContentId = id,
-                        PublicationData = DateTime.Now
+                        AccountsContentId = model.AccountsContentId,
+                        PublicationData = DateTime.Now,
+                        AccountId = model.AccountId,
                     };
                     using (var target = new MemoryStream())
                     {
@@ -165,16 +158,25 @@ namespace InternshipChallenge1.Controllers
                         objFiles.Image = target.ToArray();
                     }
 
-                    var acc = await _db.AccountsContents                    
-                    .FirstOrDefaultAsync(m => m.AccountsContentId == id);
+                    //var acc = await _db.AccountsContents                    
+                    //.FirstOrDefaultAsync(m => m.AccountsContentId == id);
 
-                    acc.AccountsContentId = model.AccountsContentId;
-                    acc.Image = model.Image;
-                    acc.PublicationData = model.PublicationData;
-                    acc.AccountId = model.AccountId;
+                    //acc.AccountsContentId = model.AccountsContentId;
+                    //acc.Image = model.Image;
+                    //acc.PublicationData = model.PublicationData;
+                    //acc.AccountId = model.AccountId;
+
+                    var dbContent = new AccountsContent()
+                    {
+                        Image = model.Image,
+                        PublicationData = DateTime.Now,
+                        AccountId = model.AccountId,
+                    };
 
 
-                    objFiles.AccountId = acc.AccountId;
+                    objFiles.AccountId = dbContent.AccountId;
+
+                    _db.AccountsContents.Add(objFiles);
 
                     var result = await _db.SaveChangesAsync();
 
