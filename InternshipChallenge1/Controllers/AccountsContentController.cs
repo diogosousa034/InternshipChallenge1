@@ -40,7 +40,7 @@ namespace InternshipChallenge1.Controllers
         {
             var contents = await _db.AccountsContents
                 .AsNoTracking()
-                .Where(c => c.AccountId == id)         
+                .Where(c => c.AccountId == id)
                 .Select(x => new AccountsContentDto()
                 {
                     AccountsContentId = x.AccountsContentId,
@@ -48,6 +48,8 @@ namespace InternshipChallenge1.Controllers
                     PublicationData = x.PublicationData,
                     AccountId = x.AccountId,
                 }).ToListAsync();
+
+            ViewBag.AccountId = id;
 
             return View(contents);
         }
@@ -57,7 +59,7 @@ namespace InternshipChallenge1.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var acc = await _db.AccountsContents
-                 .AsNoTracking()
+                .AsNoTracking()
                  .FirstOrDefaultAsync(m => m.AccountsContentId == id);
 
             var dto = new AccountsContentDto()
@@ -73,12 +75,16 @@ namespace InternshipChallenge1.Controllers
 
         // POST-Edit
         [HttpPost]
-        public async Task<IActionResult> Edit(IFormFile files, int id, AccountsContentDto model)
+        public async Task<IActionResult> Edit(IFormFile files, AccountsContentDto model)
         {
             if (files != null)
             {
                 if (files.Length > 0)
                 {
+                    var dbContent = await _db.AccountsContents
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(m => m.AccountsContentId == model.AccountsContentId);
+
                     var fileName = Path.GetFileName(files.FileName);
                     var fileExtension = Path.GetExtension(fileName);
                     var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
@@ -86,7 +92,7 @@ namespace InternshipChallenge1.Controllers
                     {
                         AccountsContentId = model.AccountsContentId,
                         PublicationData = DateTime.Now,
-                        AccountId = model.AccountId                       
+                        AccountId = dbContent.AccountId
                     };
                     using (var target = new MemoryStream())
                     {
@@ -94,21 +100,8 @@ namespace InternshipChallenge1.Controllers
                         objFiles.Image = target.ToArray();
                     }
 
-                    var acc = await _db.AccountsContents
-                    .FirstOrDefaultAsync(m => m.AccountsContentId == model.AccountsContentId);
-
-                    acc.Image = model.Image;
-                    acc.PublicationData = model.PublicationData;
-                    acc.AccountId = model.AccountId;
-
-
-                    objFiles.AccountId = acc.AccountId;
-
-                    var result = await _db.SaveChangesAsync();
-
-                    if (result < 1)
-                        return BadRequest();
-
+                    _db.Update(objFiles);
+                    await _db.SaveChangesAsync();
                 }
             }
             return RedirectToAction("Index");
@@ -117,20 +110,28 @@ namespace InternshipChallenge1.Controllers
 
         // Get-Details
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, AccountsContentDto model)
         {
 
-            var acc = await _db.AccountsContents
+            var dbContent = await _db.AccountsContents
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.AccountsContentId == id);
 
-            return View(acc);
+            dbContent.Image = model.Image;
+            dbContent.PublicationData = model.PublicationData;
+            dbContent.AccountId = model.AccountId;
+
+            return View(dbContent);
         }
 
         // GET-Create
-        public IActionResult Create()
+        [HttpGet]
+        public async Task<IActionResult> Create(int id)
         {
-            return View();
+            AccountsContentDto content = new AccountsContentDto();
+            content.AccountId = id;
+            
+            return View(content);
         }
 
         // POST-Create
@@ -138,7 +139,6 @@ namespace InternshipChallenge1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(IFormFile files, int id, AccountsContentDto model)
         {
-
             if (files != null)
             {
                 if (files.Length > 0)
@@ -150,21 +150,13 @@ namespace InternshipChallenge1.Controllers
                     {
                         AccountsContentId = model.AccountsContentId,
                         PublicationData = DateTime.Now,
-                        AccountId = model.AccountId,
+                        AccountId = id,
                     };
                     using (var target = new MemoryStream())
                     {
                         files.CopyTo(target);
                         objFiles.Image = target.ToArray();
                     }
-
-                    //var acc = await _db.AccountsContents                    
-                    //.FirstOrDefaultAsync(m => m.AccountsContentId == id);
-
-                    //acc.AccountsContentId = model.AccountsContentId;
-                    //acc.Image = model.Image;
-                    //acc.PublicationData = model.PublicationData;
-                    //acc.AccountId = model.AccountId;
 
                     var dbContent = new AccountsContent()
                     {
@@ -174,7 +166,7 @@ namespace InternshipChallenge1.Controllers
                     };
 
 
-                    objFiles.AccountId = dbContent.AccountId;
+                    objFiles.AccountsContentId = dbContent.AccountsContentId;
 
                     _db.AccountsContents.Add(objFiles);
 
@@ -183,9 +175,6 @@ namespace InternshipChallenge1.Controllers
                     if (result < 1)
                         return BadRequest();
 
-                    //_db.Attach(objFiles);
-                    //_db.Entry(objFiles).State = EntityState.Modified;
-                    //_db.SaveChanges();
                 }
             }
 

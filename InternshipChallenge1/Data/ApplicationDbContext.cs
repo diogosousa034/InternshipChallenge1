@@ -42,14 +42,14 @@ namespace InternshipChallenge1.Data
             modelBuilder.Entity<AccountsContent>()
             .HasOne<Account>(s => s.Account)
             .WithMany(g => g.AccountsContents)
-            .HasForeignKey(s => s.AccountsContentId)
+            .HasForeignKey(s => s.AccountId)
             .OnDelete(DeleteBehavior.Restrict);
 
 
             modelBuilder.Entity<AccountContentComment>()
            .HasOne<AccountsContent>(s => s.AccountsContent)
            .WithMany(g => g.AccountContentComments)
-           .HasForeignKey(s => s.AccountContentCommentId)
+           .HasForeignKey(s => s.AccountsContentId)
            .OnDelete(DeleteBehavior.Restrict);
         }
 

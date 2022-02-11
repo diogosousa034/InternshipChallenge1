@@ -31,6 +31,8 @@ namespace InternshipChallenge1.Controllers
                     AccountsContentId = x.AccountsContentId,
                 }).ToListAsync();
 
+
+            ViewBag.ContentId = id;
             return View(comments);
         }
 
@@ -54,20 +56,23 @@ namespace InternshipChallenge1.Controllers
 
         // POST-Edit
         [HttpPost]
-        public async Task<IActionResult> Edit(AccountContentCommentDto model, int id)
+        public async Task<IActionResult> Edit(AccountContentCommentDto model)
         {
 
             var dbComment = await _db.AccountContentComments
-                .Where(c => c.AccountsContentId == id)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.AccountContentCommentId == model.AccountContentCommentId);
 
-            dbComment.Message = model.Message;
-            dbComment.AccountsContentId = model.AccountsContentId;
+            var obj = new AccountContentComment()
+            {
+                AccountContentCommentId = model.AccountContentCommentId,
+                Message = model.Message,
+                AccountsContentId = dbComment.AccountsContentId,
+            };
 
-            var result = await _db.SaveChangesAsync();
 
-            if (result < 1)
-                return BadRequest();
+            _db.Update(obj);
+            await _db.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
@@ -86,20 +91,23 @@ namespace InternshipChallenge1.Controllers
         }
 
         // GET-Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
-            return View();
+            AccountContentCommentDto comment = new AccountContentCommentDto();
+            comment.AccountsContentId = id;
+
+            return View(comment);
         }
 
         // POST-Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AccountContentCommentDto model)
+        public async Task<IActionResult> Create(AccountContentCommentDto model, int id)
         {
             var dbComment = new AccountContentComment()
             {
                 Message = model.Message,
-                AccountsContentId = model.AccountsContentId,
+                AccountsContentId = id,
             };
 
             _db.AccountContentComments.Add(dbComment);

@@ -62,7 +62,6 @@ namespace InternshipChallenge1.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(AccountDto model)
         {
-
             var dbAccount = await _db.Accounts
                 .FirstOrDefaultAsync(m => m.Id == model.Id);
 
