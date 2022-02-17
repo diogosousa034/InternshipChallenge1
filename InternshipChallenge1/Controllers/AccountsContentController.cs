@@ -61,7 +61,7 @@ namespace InternshipChallenge1.Controllers
             var acc = await _db.AccountsContents
                 .AsNoTracking()
                  .FirstOrDefaultAsync(m => m.AccountsContentId == id);
-
+           
             var dto = new AccountsContentDto()
             {
                 AccountsContentId = acc.AccountsContentId,
@@ -69,6 +69,8 @@ namespace InternshipChallenge1.Controllers
                 PublicationData = acc.PublicationData,
                 AccountId = acc.AccountId,
             };
+
+            ViewBag.AccountId = dto.AccountId;
 
             return View(dto);
         }
@@ -116,10 +118,14 @@ namespace InternshipChallenge1.Controllers
             var dbContent = await _db.AccountsContents
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.AccountsContentId == id);
+            
+            ViewBag.AccountId = dbContent.AccountId;
 
             dbContent.Image = model.Image;
             dbContent.PublicationData = model.PublicationData;
             dbContent.AccountId = model.AccountId;
+
+            
 
             return View(dbContent);
         }
@@ -130,7 +136,9 @@ namespace InternshipChallenge1.Controllers
         {
             AccountsContentDto content = new AccountsContentDto();
             content.AccountId = id;
-            
+
+            ViewBag.AccountId = id;
+
             return View(content);
         }
 

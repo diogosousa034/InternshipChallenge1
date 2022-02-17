@@ -18,9 +18,7 @@ namespace InternshipChallenge1.Controllers
         }
 
         public async Task<IActionResult> Index(int id)
-        {
-            //IEnumerable<AccountContentComment> objList = _db.AccountContentComments.Where(m => m.AccountsContentId == id).ToList();
-
+        {          
             var comments = await _db.AccountContentComments
                 .AsNoTracking()
                 .Where(c => c.AccountsContentId == id)
@@ -33,6 +31,7 @@ namespace InternshipChallenge1.Controllers
 
 
             ViewBag.ContentId = id;
+
             return View(comments);
         }
 
@@ -50,6 +49,9 @@ namespace InternshipChallenge1.Controllers
                 Message = acc.Message,
                 AccountsContentId = acc.AccountsContentId,
             };
+
+
+            ViewBag.ContentId = dto.AccountsContentId;
 
             return View(dto);
         }
@@ -87,6 +89,8 @@ namespace InternshipChallenge1.Controllers
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.AccountContentCommentId == id);
 
+            ViewBag.ContentId = acc.AccountsContentId;
+
             return View(acc);
         }
 
@@ -95,6 +99,8 @@ namespace InternshipChallenge1.Controllers
         {
             AccountContentCommentDto comment = new AccountContentCommentDto();
             comment.AccountsContentId = id;
+
+            ViewBag.ContentId = id;
 
             return View(comment);
         }

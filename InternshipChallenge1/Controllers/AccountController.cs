@@ -54,6 +54,7 @@ namespace InternshipChallenge1.Controllers
                 NrFollowers = dbAccount.NrFollowers,
                 NrFollowing = dbAccount.NrFollowing
             };
+           
 
             return View(dto);
         }
