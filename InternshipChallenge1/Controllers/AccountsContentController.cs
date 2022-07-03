@@ -112,7 +112,7 @@ namespace InternshipChallenge1.Controllers
 
         // Get-Details
         [HttpGet]
-        public async Task<IActionResult> Details(int id, AccountsContentDto model)
+        public async Task<IActionResult> Details(int id)
         {
 
             var dbContent = await _db.AccountsContents
@@ -121,18 +121,14 @@ namespace InternshipChallenge1.Controllers
             
             ViewBag.AccountId = dbContent.AccountId;
 
-            dbContent.Image = model.Image;
-            dbContent.PublicationData = model.PublicationData;
-            dbContent.AccountId = model.AccountId;
-
-            
+            @ViewBag.Data = dbContent.PublicationData;
 
             return View(dbContent);
         }
 
         // GET-Create
         [HttpGet]
-        public async Task<IActionResult> Create(int id)
+        public IActionResult Create(int id)
         {
             AccountsContentDto content = new AccountsContentDto();
             content.AccountId = id;
@@ -182,7 +178,6 @@ namespace InternshipChallenge1.Controllers
 
                     if (result < 1)
                         return BadRequest();
-
                 }
             }
 
